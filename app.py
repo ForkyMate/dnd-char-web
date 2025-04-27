@@ -24,6 +24,9 @@ def home():
 def list():
     return render_template("list.html")
 
+@app.route("/create")
+def create():
+    return render_template("create.html")
 
 
 if __name__ == "__main__":
