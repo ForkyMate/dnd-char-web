@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #2b141c;
+    margin: 0; 
+    padding: 0;
+}
+
+header {
+
+text-align: center;
+}
+
+footer {
+
+text-align: center;
+}
+
+a:link {
+    color: azure;
+    background-color: transparent;
+    text-decoration:underline;
+  }
+  
+  a:visited {
+    color: azure;
+    background-color: transparent;
+    text-decoration: underline;
+  }
