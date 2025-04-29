@@ -22,11 +22,24 @@ def home():
 
 @app.route("/list")
 def list():
-    return render_template("list.html")
+    conn = get_db_connection () # Pieslēdzas datubāzei
+
+    # Izpilda SQL vaicājumu, kurš atgriež tikai vienu produktu pēc ID
+    character = conn.execute(
+        """
+        SELECT "characters".*, "classes"."name" AS "class", "races"."name" AS "race"
+        FROM characters
+        LEFT JOIN "classes" ON "characters"."class_id" = "classes"."id" 
+        LEFT JOIN "races" ON "characters"."race_id" = "races"."id" 
+        """
+    ).fetchall()
+    conn. close ()
+    return render_template("list.html", character=character)
 
 @app.route("/create")
 def create():
     return render_template("create.html")
+
 
 
 if __name__ == "__main__":

@@ -1,3 +1,27 @@
 {% extends "base.html" %}
 {% block title %}list{% endblock %}
-{% block content %} {% endblock %}
+{% block content %} 
+
+<div>
+{% for character in character %}
+<div class="fade_container">
+    <img src="{{ url_for('static', filename='images/' ~ character['image']) }}" alt="{{ character.name }}">
+    <div class="fade_overlay">
+        <p>{{character["name"]}} <br>
+        {{ character.class }} <br>
+        {{ character.race }} </p>
+    </div>
+</div>
+{% endfor %}
+</div>
+
+<!-- <div class="container p-5 rounded-5 my-5 bg-secondary text-white">
+    {% for character in character %}
+        <img src="{{ url_for('static', filename='images/' ~ character['image']) }}" alt="{{ character.name }}">
+        <p>{{character["name"]}}</p>
+        <p>{{ character.class }}</p>
+        <p>{{ character.race }}</p>
+    {% endfor %}
+</div> -->
+
+{% endblock %}

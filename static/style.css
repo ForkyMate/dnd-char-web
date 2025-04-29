@@ -8,22 +8,61 @@ body {
 
 header {
 
-text-align: center;
+  text-align: center;
 }
 
 footer {
 
-text-align: center;
+  text-align: center;
 }
 
 a:link {
-    color: azure;
-    background-color: transparent;
-    text-decoration:underline;
-  }
+  color: azure;
+  background-color: transparent;
+  text-decoration:underline;
+}
   
-  a:visited {
-    color: azure;
-    background-color: transparent;
-    text-decoration: underline;
-  }
+a:visited {
+  color: azure;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+.fade_container{
+  position: relative;
+}
+
+.fade_img{
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.fade_overlay{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: #008CBA;
+}
+
+.fade_container:hover .fade_overlay{
+  opacity: 1;
+}
+
+.fade_text{
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
