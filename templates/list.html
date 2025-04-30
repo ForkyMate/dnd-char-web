@@ -2,18 +2,23 @@
 {% block title %}list{% endblock %}
 {% block content %} 
 
-<div>
-{% for character in character %}
-<div class="fade_container">
-    <img src="{{ url_for('static', filename='images/' ~ character['image']) }}" alt="{{ character.name }}">
-    <div class="fade_overlay">
-        <p>{{character["name"]}} <br>
-        {{ character.class }} <br>
-        {{ character.race }} </p>
-    </div>
+<div class="char-list">
+    {% for character in character %}
+    <a href="https://www.w3schools.com/bootstrap/bootstrap_tables.asp">
+
+        <div class="fade_container">
+            <img class="fade_img" src="{{ url_for('static', filename='images/characters/' ~ character['image']) }}" alt="{{ character.name }}">
+            <div class="fade_overlay">
+                <p>{{character["name"]}} <br>
+                {{ character.class }} <br>
+                {{ character.race }} </p>
+            </div>
+        </div>
+        
+    </a>
+    {% endfor %}
 </div>
-{% endfor %}
-</div>
+
 
 <!-- <div class="container p-5 rounded-5 my-5 bg-secondary text-white">
     {% for character in character %}

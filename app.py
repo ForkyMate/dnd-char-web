@@ -36,9 +36,22 @@ def list():
     conn. close ()
     return render_template("list.html", character=character)
 
-@app.route("/create")
-def create():
-    return render_template("create.html")
+@app.route("/ character_<int:character_id>")
+def create(chracter_id):
+    conn = get_db_connection ()
+    character = conn.execute(
+        """
+        SELECT "characters".*, "classes"."name" AS "class", "races"."name" AS "race"
+        FROM characters
+        LEFT JOIN "classes" ON "characters"."class_id" = "classes"."id" 
+        LEFT JOIN "races" ON "characters"."race_id" = "races"."id" 
+        wHERE "characters"."id" = ?
+        """,
+        (chracter_id),
+    ).fetchone()
+    conn. close ()
+    
+    return render_template("look.html", character=character)
 
 
 

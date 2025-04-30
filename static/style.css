@@ -16,6 +16,10 @@ footer {
   text-align: center;
 }
 
+main{
+  padding: 5%;
+}
+
 a:link {
   color: azure;
   background-color: transparent;
@@ -28,14 +32,37 @@ a:visited {
   text-decoration: underline;
 }
 
+.char-list{
+  display: flex;
+  gap: 10px;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
 .fade_container{
   position: relative;
+
+  width: 320px;
+  height: 320px;
+  background-color: #eee;
+  padding: 10px;
+  border-radius: 5px;
+  color: #333;
+  text-decoration: none;
+
+  background-image: url(images/paper.jpg);
 }
 
 .fade_img{
   display: block;
   width: 100%;
   height: auto;
+  object-fit:scale-down;
+  aspect-ratio: 1/1;
+
+  border-width: 50px;
+  border-style: double;
+  border: black;
 }
 
 .fade_overlay{
