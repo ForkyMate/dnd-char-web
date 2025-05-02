@@ -36,22 +36,22 @@ def list():
     conn. close ()
     return render_template("list.html", character=character)
 
-@app.route("/ character_<int:character_id>")
-def create(chracter_id):
-    conn = get_db_connection ()
+@app.route("/character_<int:character_id>")
+def character_show(character_id):
+    conn = get_db_connection()
     character = conn.execute(
         """
         SELECT "characters".*, "classes"."name" AS "class", "races"."name" AS "race"
         FROM characters
         LEFT JOIN "classes" ON "characters"."class_id" = "classes"."id" 
         LEFT JOIN "races" ON "characters"."race_id" = "races"."id" 
-        wHERE "characters"."id" = ?
+        WHERE "characters"."id" = ?
         """,
-        (chracter_id),
+        (character_id,)
     ).fetchone()
-    conn. close ()
+    conn.close()
     
-    return render_template("look.html", character=character)
+    return render_template("character_show.html", character=character)
 
 
 
