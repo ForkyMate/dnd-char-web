@@ -1,1 +1,49 @@
 {% extends "base.html" %}
+{% block title %} {{character.name}} {% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row character-container">
+        <!-- image -->
+        <div class="col-md-6 p-3">
+            <img class="character-image"
+                src="{{ url_for('static', filename='images/characters/' ~ character['image']) }}"
+                alt="{{ character.name }}">
+        </div>
+
+        <!-- text -->
+        <div class="col-md-6 p-4">
+            <h1 class="char_name">{{character.name}}</h1>
+            <hr>
+            <div class="row justify-content-center">
+                <div class="container  mx-auto">
+                    <div class="level_container">
+                        <h2 class="char_class">LEVEL: {{character.level}}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row character-container">
+                    <div class="col-md-6 p-4">
+                        <h2 class="char_class">CLASS: {{character.class}}</h2>
+                    </div>
+                    <div class="col-md-6 p-4">
+                        <h2 class="char_class">RACE: {{character.race}}</h2>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <h3 class="char_class">BACKSTORY</h3>
+                    <hr>
+                </div>
+                
+                <div class="row">
+                    <p class="backstory">{{character.backstory}}</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

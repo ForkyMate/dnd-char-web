@@ -4,6 +4,7 @@ body {
     color: #2b141c;
     margin: 0; 
     padding: 0;
+    background-color: #dba171;
 }
 
 header {
@@ -32,6 +33,50 @@ a:visited {
   text-decoration: underline;
 }
 
+
+
+
+/* show page */
+.char_name{
+  text-align: center;
+}
+
+.char_class{
+  
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.backstory{
+  text-align: left;
+}
+
+.character-container {
+  background: #fff9eb;
+  border: 3px solid #6b4f2a;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.level_container{
+  background: #fff9eb;
+  border: 3px solid #6b4f2a;
+  border-radius: 10px;
+  margin: 0px;
+}
+
+.character-image {
+  width: 100%;
+  height: auto;
+  border: 2px solid #4a3520;
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px rgba(0,0,0,0.2);
+}
+
+
+
+
+/* list page */
 .char-list{
   display: flex;
   gap: 10px;
