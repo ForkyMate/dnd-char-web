@@ -41,10 +41,11 @@ def character_show(character_id):
     conn = get_db_connection()
     character = conn.execute(
         """
-        SELECT "characters".*, "classes"."name" AS "class", "races"."name" AS "race"
+        SELECT "characters".*, "classes"."name" AS "class", "races"."name" AS "race", "creators"."name" AS "creator"
         FROM characters
         LEFT JOIN "classes" ON "characters"."class_id" = "classes"."id" 
         LEFT JOIN "races" ON "characters"."race_id" = "races"."id" 
+        LEFT JOIN "creators" ON "characters"."creator_id" = "creators"."id" 
         WHERE "characters"."id" = ?
         """,
         (character_id,)
@@ -52,6 +53,12 @@ def character_show(character_id):
     conn.close()
     
     return render_template("character_show.html", character=character)
+
+@app.route("/create")
+def create():
+
+
+    return render_template("create.html")
 
 
 
