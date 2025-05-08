@@ -1,3 +1,59 @@
 {% extends "base.html" %}
 {% block title %}create{% endblock %}
-{% block content %} {% endblock %}
+{% block content %} 
+
+<!-- image upload  FUCK THIS -->
+
+<!-- race select -->
+
+<h1>---- UNDER MEINTINANCE -----</h1>
+
+
+<form action="/submit" method="POST" class="col-md-6">
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input type="text" name="character_name" class="form-control" placeholder="Enter name">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Creator</label>
+        <input type="text" name="creator" class="form-control" placeholder="Enter creators name">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">level</label>
+        <input type="text" name="level" class="form-control" placeholder="Enter level">
+    </div>
+
+
+    <div class="mb-3">
+        <label class="form-label">Select Race</label>
+        <select class="form-select" name="race_id">
+            <option selected>Choose a race</option>
+            {% for race in race %}
+            <option value="{{ race.id }}">{{race.name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Select Class</label>
+        <select class="form-select" name="class_id">
+            <option selected>Choose a class</option>
+            {% for clas in clas %}
+            <option value="{{ clas.id }}">{{clas.name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Backstory</label>
+        <input type="text" name="backstory" class="form-control" placeholder="Enter backstory">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+
+{% endblock %}
