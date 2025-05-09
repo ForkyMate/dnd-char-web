@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}create{% endblock %}
+{% block title %}Update {{character.name}}{% endblock %}
 {% block content %} 
 <h1>---- UPDATE {{ character.name}} -----</h1>
 
@@ -12,12 +12,12 @@
 
     <div class="mb-3">
         <label class="form-label">Creator</label>
-        <input type="text" name="creator" class="form-control" placeholder="Enter creators name" value="{{ character.name }}">
+        <input type="text" name="creator" class="form-control" placeholder="Enter creators name" value="{{ character.creator }}">
     </div>
 
     <div class="mb-3">
         <label class="form-label">level</label>
-        <input type="text" name="level" class="form-control" placeholder="Enter level" value="{{ character.name }}">
+        <input type="text" name="level" class="form-control" placeholder="Enter level" value="{{ character.level }}">
     </div>
 
 
@@ -43,7 +43,7 @@
 
     <div class="mb-3">
         <label class="form-label">Backstory</label>
-        <input type="text" name="backstory" class="form-control" placeholder="Enter backstory">
+        <input type="text" name="backstory" class="form-control" placeholder="Enter backstory" value="{{character.backstory}}">
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>

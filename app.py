@@ -79,7 +79,6 @@ def make_entry():
     backstory = request.form['backstory']
     image = "default.jpg"
 
-    print(creator_name)
     conn = get_db_connection()
     creators = conn.execute("SELECT * FROM creators")
     conn.close
@@ -195,8 +194,6 @@ def update_entry(character_id):
     return redirect(url_for('character_show', character_id))
 
 
-
-
 @app.route('/delete_entry/<int:char_id>', methods=['POST'])
 def delete_entry(char_id):
     conn = get_db_connection()
@@ -205,8 +202,6 @@ def delete_entry(char_id):
     conn.close()
     return redirect(url_for('list'))
     
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)

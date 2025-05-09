@@ -8,9 +8,12 @@
         <div class="fade_container">
             <img class="fade_img" src="{{ url_for('static', filename='images/characters/' ~ character['image']) }}" alt="{{ character.name }}">
             <div class="fade_overlay">
-                <p>{{character["name"]}} <br>
+                <div class="fade_text">
+                {{character["name"]}} <br>
+                <hr>    
                 {{ character.class }} <br>
-                {{ character.race }} </p>
+                {{ character.race }}
+                </div>
             </div>
         </div>
     </a>
