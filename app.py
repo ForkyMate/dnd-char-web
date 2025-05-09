@@ -22,9 +22,8 @@ def home():
 
 @app.route("/list")
 def list():
-    conn = get_db_connection () # Pieslēdzas datubāzei
+    conn = get_db_connection ()
 
-    # Izpilda SQL vaicājumu, kurš atgriež tikai vienu produktu pēc ID
     character = conn.execute(
         """
         SELECT "characters".*, "classes"."name" AS "class", "races"."name" AS "race"
@@ -67,37 +66,133 @@ def create():
     return render_template("create.html", character=character, race=race, clas=clas)
 
 
-#               create entry functions
+#               datbse CRUD functions
 
-# image upload  FUCK THIS SHIT
-
-@app.route('/submit', methods=['POST'])
+@app.route('/submit_create', methods=['POST'])
 def make_entry():
     # Get all form data
-    creator_id = request.form['creator']
+    creator_name = request.form['creator']
     char_name = request.form['character_name']
     race_id = request.form['race_id']
     class_id = request.form['class_id'] 
     level = request.form['level']
     backstory = request.form['backstory']
-    image = "defoult.jpg"
-    # Process data
-    print(f"creator name: 1  char name: {char_name}, race id: {race_id}, class id: {class_id}")
+    image = "default.jpg"
+
+    print(creator_name)
+    conn = get_db_connection()
+    creators = conn.execute("SELECT * FROM creators")
+    conn.close
+
+
+    creator_id = -1
+    for creator in creators:
+        if creator_name.lower() == creator["name"].lower():
+            creator_id = creator["id"]
+            break
+    if creator_id < 0:
+        conn = get_db_connection()
+        conn.execute(
+            """
+            INSERT INTO "creators" (name)
+            VALUES(?)
+            """, (creator_name,)
+        )
+        conn.commit()
+        conn.close()
+        for creator in creators:
+            if creator_name.lower() == creator["name"].lower():
+                creator_id = creator["id"]
+                break
 
     conn = get_db_connection()
-
     conn.execute(
         """
         INSERT INTO "characters" (name, race_id, class_id, "level", backstory, creator_id, image)
-        VALUES ('booger', 1, 1, 1, 'oooog', 1, 'default.jpg')
-        """
+        VALUES (?, ?, ?, ?, ?, ?, 'default.jpg')
+        """, (char_name, race_id, class_id, level, creator_id, backstory)
     )
     conn.commit()
     conn.close()
 
 
 
-    return redirect(url_for('character_show'))
+    return redirect(url_for('list'))
+
+
+@app.route('/update_<character_id>', methods=['GET', 'POST'])
+def update(character_id):
+    conn = get_db_connection()
+    character = conn.execute(
+        """
+        SELECT "characters".*, "classes"."name" AS "class", "races"."name" AS "race", "creators"."name" AS "creator"
+        FROM characters
+        LEFT JOIN "classes" ON "characters"."class_id" = "classes"."id" 
+        LEFT JOIN "races" ON "characters"."race_id" = "races"."id" 
+        LEFT JOIN "creators" ON "characters"."creator_id" = "creators"."id" 
+        WHERE "characters"."id" = ?
+        """,
+        (character_id,)
+    ).fetchone()
+    race = conn.execute("SELECT * FROM races").fetchall()
+    clas = conn.execute("SELECT * FROM classes").fetchall()
+    conn.close()
+    
+    return render_template("update.html", character=character, race=race, clas=clas)
+
+
+@app.route('/submit_update', methods=['GET','POST'])
+def update_entry(character_id):
+
+    # Get all form data
+    creator_name = request.form['creator']
+    char_name = request.form['character_name']
+    race_id = request.form['race_id']
+    class_id = request.form['class_id'] 
+    level = request.form['level']
+    backstory = request.form['backstory']
+    image = "default.jpg"
+
+
+
+    print(creator_name)
+    conn = get_db_connection()
+    creators = conn.execute("SELECT * FROM creators")
+    conn.close
+    creator_id = -1
+    for creator in creators:
+        if creator_name.lower() == creator["name"].lower():
+            creator_id = creator["id"]
+            break
+    if creator_id < 0:
+        conn = get_db_connection()
+        conn.execute(
+            """
+            INSERT INTO "creators" (name)
+            VALUES(?)
+            """, (creator_name,)
+        )
+        conn.commit()
+        conn.close()
+        for creator in creators:
+            if creator_name.lower() == creator["name"].lower():
+                creator_id = creator["id"]
+                break
+
+    conn = get_db_connection()
+    conn.execute(
+        """
+            UPDATE characters
+            SET name = ?, race_id = ?, class_id = ?, creator_id = ?, backstory = ?
+            WHERE id = ?
+        """, (char_name, race_id, class_id, level, creator_id, backstory, character_id)
+    )
+    conn.commit()
+    conn.close()
+
+
+
+    return redirect(url_for('character_show', character_id))
 
 
 
@@ -108,12 +203,8 @@ def delete_entry(char_id):
     conn.execute('DELETE FROM characters WHERE id = ?', (char_id,))
     conn.commit()
     conn.close()
-    return redirect(url_for('character_show'))
+    return redirect(url_for('list'))
     
-
-
-
-
 
 
 
