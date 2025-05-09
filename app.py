@@ -78,7 +78,7 @@ def make_entry():
     level = request.form['level']
     backstory = request.form['backstory']
     image = "default.jpg"
-
+    
     conn = get_db_connection()
     creators = conn.execute("SELECT * FROM creators")
     conn.close
