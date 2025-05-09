@@ -22,9 +22,8 @@ def home():
 
 @app.route("/list")
 def list():
-    conn = get_db_connection () # Pieslēdzas datubāzei
+    conn = get_db_connection ()
 
-    # Izpilda SQL vaicājumu, kurš atgriež tikai vienu produktu pēc ID
     character = conn.execute(
         """
         SELECT "characters".*, "classes"."name" AS "class", "races"."name" AS "race"
@@ -67,37 +66,58 @@ def create():
     return render_template("create.html", character=character, race=race, clas=clas)
 
 
-#               create entry functions
-
-# image upload  FUCK THIS SHIT
+#               datbse CRUD functions
 
 @app.route('/submit', methods=['POST'])
 def make_entry():
     # Get all form data
-    creator_id = request.form['creator']
+    creator_name = request.form['creator']
     char_name = request.form['character_name']
     race_id = request.form['race_id']
     class_id = request.form['class_id'] 
     level = request.form['level']
     backstory = request.form['backstory']
-    image = "defoult.jpg"
-    # Process data
-    print(f"creator name: 1  char name: {char_name}, race id: {race_id}, class id: {class_id}")
+    image = "default.jpg"
+
+    print(creator_name)
+    conn = get_db_connection()
+    creators = conn.execute("SELECT * FROM creators")
+    conn.close
+
+
+    creator_id = -1
+    for creator in creators:
+        if creator_name.lower() == creator["name"].lower():
+            creator_id = creator["id"]
+            break
+    if creator_id < 0:
+        conn = get_db_connection()
+        conn.execute(
+            """
+            INSERT INTO "creators" (name)
+            VALUES(?)
+            """, (creator_name,)
+        )
+        conn.commit()
+        conn.close()
+        for creator in creators:
+            if creator_name.lower() == creator["name"].lower():
+                creator_id = creator["id"]
+                break
 
     conn = get_db_connection()
-
     conn.execute(
         """
         INSERT INTO "characters" (name, race_id, class_id, "level", backstory, creator_id, image)
-        VALUES ('booger', 1, 1, 1, 'oooog', 1, 'default.jpg')
-        """
+        VALUES (?, ?, ?, ?, ?, ?, 'default.jpg')
+        """, (char_name, race_id, class_id, level, creator_id, backstory)
     )
     conn.commit()
     conn.close()
 
 
 
-    return redirect(url_for('character_show'))
+    return redirect(url_for('list'))
 
 
 
@@ -108,12 +128,8 @@ def delete_entry(char_id):
     conn.execute('DELETE FROM characters WHERE id = ?', (char_id,))
     conn.commit()
     conn.close()
-    return redirect(url_for('character_show'))
+    return redirect(url_for('list'))
     
-
-
-
-
 
 
 
